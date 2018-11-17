@@ -17,9 +17,9 @@ Automatically provision a fully customizable and production-worthy cloud<br>
 ##### Packer
 1. Download ISO and build custom image from preseed.cfg. Using Qemu (free)!
 
-$ packer.sh 
+ $ packer.sh 
 
-TODO1: add python-minimal and cloud-init to file ubuntu-xenial-nodes.tf, edit sudoers: ubuntu ALL=(ALL) NOPASSWD: ALL, add your public key to ubuntu 
+TODO1: add python-minimal and cloud-init to file ubuntu-xenial-nodes.tf, edit sudoers: ubuntu ALL=(ALL) NOPASSWD: ALL, add your public key to ubuntu user authorized_keys 
 
 
 "provisioners": [{
@@ -32,8 +32,6 @@ TODO1: add python-minimal and cloud-init to file ubuntu-xenial-nodes.tf, edit su
     ]
   }  
   
- 
-
 ##### Terraform
 2. Use the custom image to boot three VMs (the image can also be pushed to bare-metal in raw format)
 
