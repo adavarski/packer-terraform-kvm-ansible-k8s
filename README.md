@@ -3,7 +3,7 @@
 # home-cloud setup
 Automatically provision a fully customizable and production-worthy cloud<br>
 
-#### Use the dope stuff (2018)
+#### Used (2018)
 - Packer : Automated OS builds using QEMU
 - Terraform : Automated builds against any orchestration or virtualization engine
 - Libvirt/KVM : Production quality Virtual Machine deployments
@@ -15,11 +15,11 @@ Automatically provision a fully customizable and production-worthy cloud<br>
 - ElasticSearch, LogStash, Kibana : Log aggregation, indexing and beautiful visualization
 
 ##### Packer
-1. Download ISO and build custom image from preseed.cfg. Using Qemu (free)!
+1. Download ISO and build custom image from preseed.cfg. Using Qemu!
 
  $ packer.sh 
 
-TODO1: add python-minimal and cloud-init to file ubuntu-xenial-nodes.tf, edit sudoers: ubuntu ALL=(ALL) NOPASSWD: ALL, add your public key to ubuntu user authorized_keys 
+TODO1: add python-minimal and cloud-init to file ubuntu-xenial-nodes.tf or preceed.cfg file, setup sudoers: ubuntu ALL=(ALL) NOPASSWD: ALL, add your public key to ubuntu user authorized_keys, implement /ansible/roles/prepare/tasks into base image (install docker, k8s, and setup k8s env)
 
 ```
 "provisioners": [{
@@ -119,7 +119,15 @@ $ sudo apt install sshpass
 
 $ ansible-playbook -i ./inventory send_keys.yml  --ask-pass --ask-sudo-pass
 
-Setup k8s
+Setup k8s 
+
+Edit ansible/roles/master/tasks/init.yml and change master IP .... lines: 
+
+kubeadm init --apiserver-advertise-address=192.168.122.248 --pod-network-cidr=10.244.0.0/16
+
+| sed -e 's!clusterCIDR: ""!clusterCIDR: "192.168.122.0/24"!' >/etc/kubectl/kube-proxy.map
+
+Run K8s playbook
 
 $ ansible-playbook site.ym
 ```
