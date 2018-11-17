@@ -1,0 +1,4 @@
+*.log
+packer/packer_cache/
+packer/ubuntu-xenial-base/
+terraform/terraform.tfstate*
