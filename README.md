@@ -21,7 +21,7 @@ Automatically provision a fully customizable and production-worthy cloud<br>
 
 TODO1: add python-minimal and cloud-init to file ubuntu-xenial-nodes.tf, edit sudoers: ubuntu ALL=(ALL) NOPASSWD: ALL, add your public key to ubuntu user authorized_keys 
 
-
+```
 "provisioners": [{
     "type": "shell",
     "inline": [
@@ -31,7 +31,7 @@ TODO1: add python-minimal and cloud-init to file ubuntu-xenial-nodes.tf, edit su
      
     ]
   }  
-  
+```  
 ##### Terraform
 2. Use the custom image to boot three VMs (the image can also be pushed to bare-metal in raw format)
 
@@ -63,7 +63,7 @@ $ terraform init
 $ terraform apply
 
 TODO2: Add private key via cloud-init if you don't add via packer
- 
+``` 
 ----- add to file ubuntu-xenial-nodes.tf
  data "template_file" "user_data" {
   template = "${file("${path.module}/cloud_init.cfg")}"
@@ -73,14 +73,14 @@ TODO2: Add private key via cloud-init if you don't add via packer
 #cloud-config
 ssh_authorized_keys:
   - ssh-rsa mR7XxKmAM/+SJw0jww+7Rq/Ds0+wDAj+wNc1RczI5C2wZ6ydML2RM6IaA14LS8
-  
+```  
 ##### Libvirt/KVM
 3. Linux bridge, KVM Vifs in bridged mode: the VMs draw their IPs from the physical LAN
 
 Get nodes IPs
 
 Example:
-
+```
 $ for i in {000,001,002}; do virsh domifaddr ubuntu$i;done
  Name       MAC address          Protocol     Address
 -------------------------------------------------------------------------------
@@ -93,12 +93,12 @@ $ for i in {000,001,002}; do virsh domifaddr ubuntu$i;done
  Name       MAC address          Protocol     Address
 -------------------------------------------------------------------------------
  vnet1      8e:b2:8b:17:f6:9e    ipv4         192.168.122.9/24
-
+```
 ##### Ansible
 4. Use Ansible to deploy Kubernetes cluster onto the VMs
 
 Create inventory (IPs of KVM VMs)
-
+```
 Example:
 $ cat ansible/inventory 
 [all]
@@ -122,7 +122,7 @@ $ ansible-playbook -i ./inventory send_keys.yml  --ask-pass --ask-sudo-pass
 Setup k8s
 
 $ ansible-playbook site.ym
-
+```
 
 ##### Kubernetes
 5. Use Calico for Network Firewalling and Namespace control
